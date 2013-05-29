@@ -1,0 +1,40 @@
+#!/bin/sh
+
+#
+# This is a simple script for deploy a rail app
+# The git user should have rvm in their path 
+# Copy this script to ~git/MyRepo.git/hooks/post-receive and then chmod +x
+#
+
+AS_USER=`whoami`;
+APP_ROOT=/var/www/staging;
+unset GIT_DIR;
+
+echo "============================";
+echo "Deploying project";
+echo "Username: $AS_USER";
+
+PATH=$PATH:/usr/local/rvm/gems/ree-1.8.7-2011.03@deploy/bin:/usr/local/rvm/gems/ree-1.8.7-2011.03@global/bin:/usr/local/rvm/rubies/ree-1.8.7-2011.03/bin:/usr/local/rvm/bin:/usr/local/bin:/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/rvm/bin;
+export PATH;
+
+echo "Path: $PATH";
+
+cd $APP_ROOT;
+
+git pull;
+/usr/local/rvm/gems/ree-1.8.7-2010.02/bin/bundle install --deployment;
+if [ -f public/assets ]; then
+  rm public/assets/*.gz;
+fi
+echo "trying jamiit"
+/usr/local/rvm/gems/ree-1.8.7-2010.02/bin/bundle exec jammit;
+echo "migrating db"
+/usr/local/rvm/gems/ree-1.8.7-2010.02/bin/bundle exec rake db:migrate RAILS_ENV=staging;
+git checkout db/schema.rb; 
+echo "restarting"
+touch tmp/restart.txt;
+
+echo "Alerting users";
+. /usr/share/doc/git-core/contrib/hooks/post-receive-email
+echo "============================";
+echo 'Done.';

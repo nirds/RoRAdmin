@@ -1,0 +1,144 @@
+Ruby on Rails Overview
+	•	Overview of Ruby
+	•	Overview of Web Development
+	•	Overview of Ruby on Rails 
+Ruby on Rails Configurations
+	•	Mongrel:
+	⁃	The current release Mongrel 1.1.5 is no longer able to install in Ruby versions higher than 1.9.2 which is recommended for Rails 3. Replaced by Thin. (wikipedia)
+	⁃	Thin website
+	⁃	http://code.macournoyer.com/thin/
+	⁃	Basically a ruby application server that presents an HTTP Interface. It does one thing, taking a request, passing it to your ruby code and serves the answer back in http.
+	⁃	Does not handle concurrency, or any performance related feature.
+	⁃	One mongrel means there is one ruby process that will handle requests.
+	⁃	Can be run as the main web server, but is single threaded, so cannot support much load
+	⁃	The mongrel package has 3 main commands: start, stop and restart.
+	⁃	Detailed mongrel cluster install instructions
+	⁃	http://www.rackspace.com/knowledge_center/article/ubuntu-mongrel-and-mongrel-cluster
+	•	Unicorn:
+	⁃	an HTTP server for Rack applications designed to only serve fast clients on low-latency, high-bandwidth connections and take advantage of features in Unix/Unix-like kernels.
+	⁃	Rack HTTP server that uses forked processes to handle multiple incoming requests concurrently
+	⁃	Useful details of how unicorn is different
+	⁃	https://blog.engineyard.com/2010/everything-you-need-to-know-about-unicorn
+	⁃	Install instructions + readme
+	⁃	http://unicorn.bogomips.org
+	•	JRuby:
+	⁃	Implementation of the Ruby programming language atop the Java Virtual Machine
+	⁃	Essentially the Ruby interpreter, except this version is written entirely in Java
+	⁃	Tightly integrated with Java to allow the embedding of the interpreter into any Java application with full two-way access between the Java and the Ruby code
+	⁃	Can invoke the classes of the Java Platform (like swing)
+	⁃	Usually lags behind one version of Ruby
+	⁃	Cannot use native Ruby gems
+	•	Apache + Mongrel	
+	⁃	Usual configuration: use Apache HTTP Server 2.2 as a load balancer using mod_proxy_balancer in conjunction with several Mongrel instances. Each Mongrel instance should run on a separate TCP port, configured via the mongrel_cluster management utility.
+	⁃	Apache install instructions on Ubuntu
+	⁃	http://www.rackspace.com/knowledge_center/article/ubuntu-apache-and-php-install
+	⁃	Detailed instructions on creating and configuring Apache to proxy to a mongrel cluster
+	⁃	http://www.rackspace.com/knowledge_center/article/ubuntu-apache-rails-and-mongrels
+	⁃	Short install and Apache configuration instructions: assumes you have apache 2.2 and yum (or apt-get if your running a debian flavour)
+	⁃	http://www.webmasterwords.com/ruby-rails-mongrel-apache-easy
+	•	Nginx + Mongrel
+	⁃	Nginx: is a fully featured web server, aimed at performances. It can deliver high performance on static files and can't handle Ruby, Python or any other language in a direct manner. It relies on FastGCI or proxying to other application servers to do that.
+	⁃	Quick nginx and mongrel install instructions with detailed configuration information
+	⁃	http://www.gregbenedict.com/2007/07/06/hosting-rails-apps-using-nginx-and-mongrel-cluster/
+	⁃	Install instructions for Nginx virtual hosts to proxy to a mongrel cluster
+	⁃	http://articles.slicehost.com/2009/3/11/ubuntu-intrepid-nginx-rails-and-mongrels
+	⁃	Nice overview of why to choose nginx + configuration information
+	⁃	http://brainspl.at/articles/2006/08/23/nginx-my-new-favorite-front-end-for-mongrel-cluster
+	•	Nginx + Unicorn
+	⁃	Install instructions + pros of unicorn
+	⁃	http://sirupsen.com/setting-up-unicorn-with-nginx/
+	•	Tomcat + JRuby
+	⁃	Complete JRuby configuration list
+	⁃	https://github.com/jruby/jruby/wiki/ConfiguringJRuby
+	⁃	Instructions for how to bundle Rails apps as .war files
+	⁃	http://thenice.tumblr.com/post/133345213/deploying-a-rails-application-in-tomcat-with-jruby-a
+	•	Apache/Lighttpd + FastCGI
+	⁃	Install instructions for Ruby on Rails as a fastcgi process under Apache
+	⁃	http://www.anaema.com/ror-apache-fastcgi.html
+	⁃	Quick walkthrough to install lighttpd, FastCGI, Ruby on Rails, and MySQL on RedHat Enterprise Linux 5
+	⁃	http://blog.dt.org/index.php/2008/11/installing-lighttpd-ruby-on-rails-fastcgi-and-mysql-on-rhel-5/
+Rub on Rails Deployments
+	•	Source Code Management 
+	⁃	Basic introduction to using Git for source code management with breaching diagrams
+	⁃	http://nvie.com/posts/a-successful-git-branching-model/
+	⁃	Set up auto deploy Rails apps after Git push
+	⁃	http://www.hagenburger.net/BLOG/How-to-auto-deploy-Rails-apps-after-Git-push.html
+	•	Capistrano
+	⁃	A Ruby program that provides a set of advanced tools to deploy web applications to servers
+	⁃	Copies code from a source control repository (SVN or Git) to a server via SSH, and performs pre and post-deploy functions like restarting a webserver, busting cache, renaming files, running database migrations. etc.
+	⁃	Default deployment diagram with commands
+	⁃	https://github.com/capistrano/capistrano/wiki/2.x-Default-Deployment-Behaviour
+	⁃	Installation guide and usage examples
+	⁃	http://guides.beanstalkapp.com/deployments/deploy-with-capistrano.html
+	•	Gems
+	⁃	How to install a gem to Rubygems.org
+	⁃	http://guides.rubygems.org/publishing/
+	⁃	How to deploy without Rubygems.org
+	⁃	http://words.steveklabnik.com/how-to-not-rely-on-rubygemsorg-for-deployment
+	•	Migrations
+	⁃	a convenient way to alter the database in a structured and organized manner. 
+	⁃	Active Record tracks which migrations have already been run so all you have to do is update your source and run rake db:migrate.
+	⁃	Active Record will work out which migrations should be run.
+	⁃	It will update your db/schema.rb file to match the structure of your database.
+	⁃	Complete documentation on how to do migrations
+	⁃	http://guides.rubyonrails.org/migrations.html
+	•	Staging environment
+Security
+	•	SSL (including requiring SSL)
+	⁃	Open SSL examples
+	⁃	http://www.ruby-doc.org/stdlib-2.0/libdoc/openssl/rdoc/OpenSSL.html
+	⁃	Ways to force Rails to use SSL and the HTTPS protocol and hybrid
+	⁃	http://www.simonecarletti.com/blog/2011/05/configuring-rails-3-https-ssl/
+	•	Preventing cross-site-scripting
+	⁃	Standard ways to prevent cookie hijacking
+	⁃	http://guides.rubyonrails.org/security.html#cross-site-request-forgery-csrf
+	⁃	Detailed guide to types of injection hacking and countermeasures
+	⁃	http://guides.rubyonrails.org/v2.3.11/security.html#cross-site-scripting-xss
+	•	Preventing SQL injections
+	⁃	Standard injection documentation and ruby specific countermeasures
+	⁃	http://guides.rubyonrails.org/security.html#injection
+	⁃	How to make pages fully static
+	⁃	http://ruby.railstutorial.org/chapters/static-pages#sec-truly_static_pages
+	•	Blocking Clients by Source IP/Hostname 
+	⁃	Nginx Block And Deny IP Address OR Network Subnets
+	⁃	http://www.cyberciti.biz/faq/linux-unix-nginx-access-control-howto/
+	⁃	Code snippet of how to use authlogic
+	⁃	http://stackoverflow.com/questions/10894408/authlogic-how-to-block-certain-ip-addresses-from-signing-up
+Performance  and Scalability
+	•	5 ways to boost performance of a Rails applications
+	⁃	http://blog.sphereinc.com/2010/07/5-ways-to-boost-performance-of-your-rails-applications/
+	•	caching MemCache
+	⁃	Basic introduction to using memcached with Rails.
+	⁃	http://nubyonrails.com/articles/memcached-basics-for-rails
+	⁃	Memcache set up information + general caching information
+	⁃	http://guides.rubyonrails.org/caching_with_rails.html#activesupport-cache-memcachestore
+	•	load balancing
+	⁃	Apache 2.2 With Load Balancing For Mongrel + Ruby on Rails instructions
+	⁃	http://www.rubyrobot.org/article/mongrel-apache-load-balancing-ruby-on-rails
+Monitoring
+	•	monit:
+	⁃	Free open source process supervision tool for Unix and Linux
+	⁃	System status can be viewed directly from the command line, or via the native HTTP(S) web server. 
+	⁃	Has to be configured using its own, more restrictive, syntax.
+	⁃	Can generate monit config with Ruby (as a part of your deployment strategy).
+	⁃	Overview slides and complete manual
+	⁃	http://mmonit.com/monit/documentation/
+	•	god
+	⁃	God config file is written in Ruby, so you can do basically everything Ruby allows you to do.
+	⁃	Easily write your own custom conditions in Ruby
+	⁃	Supports both poll and event based conditions
+	⁃	Different poll conditions can have different intervals
+	⁃	Integrated notification system (write your own too!)
+	⁃	Easily control non-daemonizing scripts
+	⁃	Installation and usage guide
+	⁃	http://godrb.com 
+	•	Error Notifications
+	⁃	Exception Notifier:
+	⁃	Plugin provides a mailer object and a default set of templates for sending email notifications when errors occur in a Rails application
+	⁃	Email includes information about the current request, session, and environment, and also gives a backtrace of the exception
+	⁃	Installation and configuration instructions
+	⁃	https://github.com/smartinez87/exception_notification#readme
+	⁃	Errbit:
+	⁃	paid a tool for collecting and managing errors from other applications
+	⁃	Airbrake (formerly known as Hoptoad) API compliant
+	⁃	http://errbit.github.io/errbit/
