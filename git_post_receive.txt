@@ -26,7 +26,7 @@ git pull;
 if [ -f public/assets ]; then
   rm public/assets/*.gz;
 fi
-echo "trying jamiit"
+echo "trying jammit"
 /usr/local/rvm/gems/ree-1.8.7-2010.02/bin/bundle exec jammit;
 echo "migrating db"
 /usr/local/rvm/gems/ree-1.8.7-2010.02/bin/bundle exec rake db:migrate RAILS_ENV=staging;
