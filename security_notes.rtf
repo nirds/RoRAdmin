@@ -1,0 +1,37 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1138\cocoasubrtf510
+{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+\margl1440\margr1440\vieww10800\viewh8400\viewkind0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\f0\fs24 \cf0 least privilege\
+(deploy user)\
+secure by default\
+- whitelist\
+- safe api - active record query api - safe way (escaping)\
+automatic sanitizing (cross site scripting default)\
+\
+Defense in Depth\
+- layers of defense - layers buy more time (security)\
+- like not worry about script injection in Admin area -> whats the impact?\
+\
+Attacks:\
+1. session hijacking - firesheep (made it easy, drew attention to it, ssl for login but not for every view\
+- force ssl (everywhere) -> config.force_ssl = true (nginx for ssl termination)\
+- secure and httponly cookies (done for you on most rails versions - should have secure and httpOnly)\
+- strict transport security - force ssl sends this by default\
+- require a password for sensitive stuff\
+2. craft the url to send params -> make sure you are checking proper authorization for data you are presenting (roles? maybe over-kill\'85) -> force checking authorization\
+3. mass assignment - rails 4 has strong_parameters - requires a object (hash) in the params then permit what fields are allowed in that hash\
+4. csrf - only apply to post etc.. so you have to be safe with GETs\
+5.  leaky routes - not a default thing - you make it accessible -> strict limits on actions in routes, also user specifications in render \
+Offsite redirects\
+Good: Verify protocol and host\
+Better: Create a whitelist\
+Best: Use an identifier instead of a URL\
+6. sql injection (use the query interface) but be careful know the AR api - uncommon (calculate and pluck)\
+rails-sqli.org\
+7. cross site scripting (XSS) -> malicious js -> Rails 3+ -> rails_xss, sanitize user generated html (Loofah gem) -> content security policy (tell the browser what is safe) -> raw and html_safe  and link_to can inject values if u generate html from user settings \'85.\
+\
+\
+}
